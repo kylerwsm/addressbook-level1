@@ -56,6 +56,11 @@ public class AddressBook {
      */
     private static final String LS = System.lineSeparator() + LINE_PREFIX;
 
+    /**
+     * Stores the last searched person.
+     */
+    private static String lastSearched = null;
+
     /*
      * NOTE : ==================================================================
      * These messages shown to the user are defined in one place for convenient
@@ -111,8 +116,11 @@ public class AddressBook {
     private static final String COMMAND_FIND_PARAMETERS = "KEYWORD [MORE_KEYWORDS]";
     private static final String COMMAND_FIND_EXAMPLE = COMMAND_FIND_WORD + " alice bob charlie";
 
+    private static final String COMMAND_LAST_WORD = "last";
+    private static final String COMMAND_LAST_DESC = "Display the last searched contact.";
+
     private static final String COMMAND_LIST_WORD = "list";
-    private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
+    private static final String COMMAND_LIST_DESC = "Display the most searched contact.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
 
     private static final String COMMAND_DELETE_WORD = "delete";
@@ -369,22 +377,24 @@ public class AddressBook {
         final String commandType = commandTypeAndParams[0];
         final String commandArgs = commandTypeAndParams[1];
         switch (commandType) {
-        case COMMAND_ADD_WORD:
-            return executeAddPerson(commandArgs);
-        case COMMAND_FIND_WORD:
-            return executeFindPersons(commandArgs);
-        case COMMAND_LIST_WORD:
-            return executeListAllPersonsInAddressBook();
-        case COMMAND_DELETE_WORD:
-            return executeDeletePerson(commandArgs);
-        case COMMAND_CLEAR_WORD:
-            return executeClearAddressBook();
-        case COMMAND_HELP_WORD:
-            return getUsageInfoForAllCommands();
-        case COMMAND_EXIT_WORD:
-            executeExitProgramRequest();
-        default:
-            return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
+            case COMMAND_ADD_WORD:
+                return executeAddPerson(commandArgs);
+            case COMMAND_FIND_WORD:
+                return executeFindPersons(commandArgs);
+            case COMMAND_LAST_WORD:
+                return executeLastPerson();
+            case COMMAND_LIST_WORD:
+                return executeListAllPersonsInAddressBook();
+            case COMMAND_DELETE_WORD:
+                return executeDeletePerson(commandArgs);
+            case COMMAND_CLEAR_WORD:
+                return executeClearAddressBook();
+            case COMMAND_HELP_WORD:
+                return getUsageInfoForAllCommands();
+            case COMMAND_EXIT_WORD:
+                executeExitProgramRequest();
+            default:
+                return getMessageForInvalidCommandInput(commandType, getUsageInfoForAllCommands());
         }
     }
 
@@ -453,7 +463,21 @@ public class AddressBook {
         final Set<String> keywords = extractKeywordsFromFindPersonArgs(commandArgs);
         final ArrayList<String[]> personsFound = getPersonsWithNameContainingAnyKeyword(keywords);
         showToUser(personsFound);
+
+        if (personsFound.size() > 0) {
+            lastSearched = personsFound.get(0)[0];
+        }
+
         return getMessageForPersonsDisplayedSummary(personsFound);
+    }
+
+    /**
+     * List the last searched person.
+     *
+     * @return feedback display message for the operation result
+     */
+    private static String executeLastPerson() {
+        return getMessageForPersonLast(lastSearched);
     }
 
     /**
@@ -464,6 +488,21 @@ public class AddressBook {
      */
     private static String getMessageForPersonsDisplayedSummary(ArrayList<String[]> personsDisplayed) {
         return String.format(MESSAGE_PERSONS_FOUND_OVERVIEW, personsDisplayed.size());
+    }
+
+    /**
+     * Constructs a message for the last person searched.
+     * If multiple results are result to a search, the first one will be saved.
+     *
+     * @param lastSearched the last searched person.
+     * @return message for last searched person.
+     */
+    private static String getMessageForPersonLast(String lastSearched) {
+        if (lastSearched != null) {
+            return "The last entry was " + lastSearched + ".";
+        } else {
+            return "No entry is found.";
+        }
     }
 
     /**
