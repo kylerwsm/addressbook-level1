@@ -118,9 +118,10 @@ public class AddressBook {
 
     private static final String COMMAND_LAST_WORD = "last";
     private static final String COMMAND_LAST_DESC = "Display the last searched contact.";
+    private static final String COMMAND_LAST_EXAMPLE = COMMAND_FIND_WORD + " last";
 
     private static final String COMMAND_LIST_WORD = "list";
-    private static final String COMMAND_LIST_DESC = "Display the most searched contact.";
+    private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
     private static final String COMMAND_LIST_EXAMPLE = COMMAND_LIST_WORD;
 
     private static final String COMMAND_DELETE_WORD = "delete";
@@ -1123,6 +1124,7 @@ public class AddressBook {
     private static String getUsageInfoForAllCommands() {
         return getUsageInfoForAddCommand() + LS
                 + getUsageInfoForFindCommand() + LS
+                + getUsageInfoForLastCommand() + LS
                 + getUsageInfoForViewCommand() + LS
                 + getUsageInfoForDeleteCommand() + LS
                 + getUsageInfoForClearCommand() + LS
@@ -1142,6 +1144,12 @@ public class AddressBook {
         return String.format(MESSAGE_COMMAND_HELP, COMMAND_FIND_WORD, COMMAND_FIND_DESC) + LS
                 + String.format(MESSAGE_COMMAND_HELP_PARAMETERS, COMMAND_FIND_PARAMETERS) + LS
                 + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_FIND_EXAMPLE) + LS;
+    }
+
+    /** Returns the string for showing 'last' command usage instruction */
+    private static String getUsageInfoForLastCommand() {
+        return String.format(MESSAGE_COMMAND_HELP, COMMAND_LAST_WORD, COMMAND_LAST_DESC) + LS
+                + String.format(MESSAGE_COMMAND_HELP_EXAMPLE, COMMAND_LAST_EXAMPLE) + LS;
     }
 
     /** Returns the string for showing 'delete' command usage instruction */
