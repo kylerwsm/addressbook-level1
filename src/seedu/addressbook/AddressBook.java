@@ -118,7 +118,7 @@ public class AddressBook {
 
     private static final String COMMAND_LAST_WORD = "last";
     private static final String COMMAND_LAST_DESC = "Display the last searched contact.";
-    private static final String COMMAND_LAST_EXAMPLE = COMMAND_FIND_WORD + " last";
+    private static final String COMMAND_LAST_EXAMPLE = "last";
 
     private static final String COMMAND_LIST_WORD = "list";
     private static final String COMMAND_LIST_DESC = "Displays all persons as a list with index numbers.";
