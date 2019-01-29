@@ -59,6 +59,9 @@
 || 	Parameters: KEYWORD [MORE_KEYWORDS]
 || 	Example: find alice bob charlie
 || 
+|| last: Display the last searched contact.
+|| 	Example: last
+|| 
 || list: Displays all persons as a list with index numbers.
 || 	Example: list
 || 
